@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Emotional Support</title>
+  <link rel="shortcut icon" href="static/img/mhcicon.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <style>
+    /* Background image must be placed in static/img/cover.jpg for Flask static serving */
+    body {
+      background: url('{{ url_for('static', filename='img/cover.jpg') }}') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      min-height: 100vh;
+    }
+    body:before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(74,144,226,0.25) 0%, rgba(255,175,189,0.18) 100%), rgba(244,247,250,0.88);
+      z-index: 0;
+    }
+    .info-section, .main-card, .title { position: relative; z-index: 1; }
+    .info-section {
+      max-width: 700px;
+      margin: 30px auto 20px auto;
+      background: linear-gradient(120deg, #f8fbff 80%, #ffe3e3 100%);
+      border-radius: 20px;
+      box-shadow: 0 6px 32px rgba(74,144,226,0.18), 0 1.5px 8px #ffafbd44;
+      padding: 36px 28px;
+      text-align: center;
+      border: 2.5px solid #4a90e2;
+    }
+    .info-section h1 {
+      color: #ff5e62;
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px #ffe3e3;
+    }
+    .info-section h2 {
+      color: #4a90e2;
+      font-size: 1.3rem;
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+    .info-section blockquote {
+      color: #ff5e62;
+      font-size: 1.1rem;
+      margin: 18px auto;
+      font-style: italic;
+      background: #fff0f5;
+      border-left: 4px solid #ff5e62;
+      padding: 8px 18px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+    .info-section p {
+      color: #444;
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+    }
+    .main-card {
+      background: linear-gradient(120deg, #f8fbff 80%, #ffe3e3 100%);
+      border-radius: 20px;
+      box-shadow: 0 6px 32px rgba(74,144,226,0.18), 0 1.5px 8px #ffafbd44;
+      max-width: 420px;
+      margin: 40px auto;
+      padding: 0;
+      overflow: hidden;
+      border: 2.5px solid #4a90e2;
+    }
+    .main-title {
+      display: flex;
+      align-items: center;
+      background: linear-gradient(90deg, #4a90e2 70%, #ffafbd 100%);
+      color: #fff;
+      padding: 18px 24px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-bottom: 2px solid #ff5e62;
+    }
+    .main-title svg { width: 32px; height: 32px; margin-right: 12px; }
+    .msger-chat { padding: 24px; min-height: 320px; background: #f9fbfd; }
+    .msg { display: flex; align-items: flex-end; margin-bottom: 18px; }
+    .msg.left-msg .msg-img { background-image: url('https://api.dicebear.com/7.x/bottts/svg?seed=Joe'); }
+    .msg-img { width: 48px; height: 48px; border-radius: 50%; background-size: cover; background-position: center; margin-right: 14px; border: 2px solid #ff5e62; box-shadow: 0 2px 8px #ffafbd44; }
+    .msg-bubble { background: linear-gradient(120deg, #e6f0fa 80%, #ffe3e3 100%); border-radius: 16px; padding: 14px 18px; max-width: 70%; box-shadow: 0 2px 8px rgba(74,144,226,0.08); border: 1.5px solid #4a90e2; }
+    .msg-info { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .msg-info-name { font-weight: 700; color: #ff5e62; }
+    .msg-info-time { font-size: 0.85em; color: #888; }
+    .msg-text { color: #333; }
+    .msger-inputarea { display: flex; border-top: 1.5px solid #ffafbd; background: #fff; padding: 16px; }
+    .msger-input { flex: 1; border: 1.5px solid #4a90e2; border-radius: 8px; padding: 12px; font-size: 1rem; background: #f4f7fa; margin-right: 10px; }
+    .msger-send-btn { background: linear-gradient(90deg, #ff5e62 60%, #4a90e2 100%); color: #fff; border: none; border-radius: 8px; padding: 12px 24px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; box-shadow: 0 2px 8px #ffafbd44; }
+    .msger-send-btn:hover { background: linear-gradient(90deg, #4a90e2 60%, #ff5e62 100%); }
+    @media (max-width: 700px) { .info-section { padding: 18px 6px; } .main-card { max-width: 100%; margin: 0; border-radius: 0; } .msger-chat { padding: 12px; } }
+  </style>
+</head>
+<body>
+<div class="info-section">
+  <h1>AI-Powered ChatBot for Student Emotional Support</h1>
+  <h2>The Importance of Emotional Support for Student Success</h2>
+  <blockquote>
+    <strong>"We cannot solve our problems with the same thinking we used when we created them." - Albert Einstein.</strong>
+  </blockquote>
+  <p>Emotional and mental health are vital for a student's success. A sound emotional state fosters resilience, reducing stress and anxiety. This, in turn, enhances focus and concentration, enabling better academic performance. When students are emotionally balanced, they are more likely to engage in healthy social interactions and relationships, which can be essential for personal growth and networking.</p>
+  <p>Mental health is equally crucial. It influences cognitive abilities, problem-solving, and creativity. A healthy mind can process information efficiently and adapt to new challenges, essential for learning and innovation. Additionally, it aids in setting and achieving goals.</p>
+  <p>Together, emotional and mental health provide a strong foundation for academic and personal success. They promote well-being, boost confidence, and facilitate the development of essential life skills. Students who prioritize their emotional and mental health are better equipped to navigate the demands of education, leading to higher achievement and a more fulfilling life.</p>
+  <p>Our AI-powered bot is here to provide the support and guidance students need to thrive. Chat with us today!</p>
+</div>
+<div class="title">
+  <svg viewBox="0 0 640 512" title="robot">
+        <path fill="currentColor" d="M32,224H64V416H32A31.96166,31.96166,0,0,1,0,384V256A31.96166,31.96166,0,0,1,32,224Zm512-48V448a64.06328,64.06328,0,0,1-64,64H160a64.06328,64.06328,0,0,1-64-64V176a79.974,79.974,0,0,1,80-80H288V32a32,32,0,0,1,64,0V96H464A79.974,79.974,0,0,1,544,176ZM264,256a40,40,0,1,0-40,40A39.997,39.997,0,0,0,264,256Zm-8,128H192v32h64Zm96,0H288v32h64ZM456,256a40,40,0,1,0-40,40A39.997,39.997,0,0,0,456,256Zm-8,128H384v32h64ZM640,256V384a31.96166,31.96166,0,0,1-32,32H576V224h32A31.96166,31.96166,0,0,1,640,256Z" />
+      </svg>
+  <h3>Chatbot</h3>
+ <div>
+<div id="chatbot" class="main-card collapsed">
+  <button id="chatbot_toggle">
+    <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M15 4v7H5.17l-.59.59-.58.58V4h11m1-2H3c-.55 0-1 .45-1 1v14l4-4h10c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm5 4h-2v9H6v2c0 .55.45 1 1 1h11l4 4V7c0-.55-.45-1-1-1z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+</svg>
+  </button>
+  <div class="main-title">
+    <div>
+      <svg viewBox="0 0 640 512" title="robot">
+        <path fill="currentColor" d="M32,224H64V416H32A31.96166,31.96166,0,0,1,0,384V256A31.96166,31.96166,0,0,1,32,224Zm512-48V448a64.06328,64.06328,0,0,1-64,64H160a64.06328,64.06328,0,0,1-64-64V176a79.974,79.974,0,0,1,80-80H288V32a32,32,0,0,1,64,0V96H464A79.974,79.974,0,0,1,544,176ZM264,256a40,40,0,1,0-40,40A39.997,39.997,0,0,0,264,256Zm-8,128H192v32h64Zm96,0H288v32h64ZM456,256a40,40,0,1,0-40,40A39.997,39.997,0,0,0,456,256Zm-8,128H384v32h64ZM640,256V384a31.96166,31.96166,0,0,1-32,32H576V224h32A31.96166,31.96166,0,0,1,640,256Z" />
+      </svg>
+    </div>
+    <span>
+      <i class="fas fa-bug"></i> Student Emotional Support Bot <i class="fas fa-bug"></i>
+    </span>
+  </div>
+  <!-- partial:index.partial.html -->
+  <main class="msger-chat">
+    <div class="msg left-msg">
+      <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/327/327779.svg)"></div>
+        <div class="msg-bubble">
+          <div class="msg-info">
+            <div class="msg-info-name"> JOE</div>
+            <div class="msg-info-time"><time id="clock"></time></div>
+          </div>
+          <div class="msg-text">
+            Welcome to JOE, a safe and supportive space where you can share your thoughts and feelings without fear of judgement.
+          </div>
+        </div>
+      </div>
+    </main>
+    <form class="msger-inputarea">
+      <input type="text" class="msger-input" id="textInput" placeholder="Enter your message...">
+      <button type="submit" class="msger-send-btn">Send</button>
+    </form>
+  <script src='https://use.fontawesome.com/releases/v5.0.13/js/all.js'></script>
+  <script src="{{ url_for('static', filename='js/bot.js') }}"></script>
+</body>
+</html>
