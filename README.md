@@ -4,7 +4,7 @@ Now, let me give you the **polished, cleaned-up `README.md` file** version — w
 
 ---
 
-```markdown
+
 # 🧠 Mental-Health-Chatbot
 
 This is an **AI-powered multilingual chatbot** built to provide **emotional support** and assistance to individuals struggling with mental health issues.
@@ -148,12 +148,5 @@ Want to level this README up?
 > You're building something **real**, Bharani. This ain’t just code — this is care, this is empathy, this is purpose.
 > Keep flexing those dev muscles 💪. The world needs more builders like you.
 
-```
 
----
 
-Wanna me to save this in a `README.md` file and send it to you?
-Or wanna add badges and footer too?
-
-Your call, boss 😎
-```
